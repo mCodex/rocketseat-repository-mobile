@@ -20,18 +20,24 @@ import {
 const User = ({ route }) => {
     const { user } = route.params;
     const [stars, setStars] = useState([]);
+    const [pagination, setPagination] = useState(1);
 
     useEffect(() => {
         const loadDataFromAPI = async () => {
             try {
-                const response = await api.get(`/users/${user.login}/starred`);
-                setStars(response.data);
+                const response = await api.get(`/users/${user.login}/starred`, {
+                    params: { page: pagination },
+                });
+                setStars(prevState => [...prevState, ...response.data]);
             } catch (ex) {
                 console.log(ex);
             }
         };
         loadDataFromAPI();
-    }, []);
+    }, [pagination]);
+
+    const handleOnEndReached = () =>
+        setPagination(prevState => (prevState += 1));
 
     return (
         <Container>
@@ -53,6 +59,8 @@ const User = ({ route }) => {
                         </Info>
                     </Starred>
                 )}
+                onEndReached={handleOnEndReached}
+                onEndReadchedThreshold={500}
             />
         </Container>
     );
