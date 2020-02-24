@@ -2,8 +2,7 @@
 
 A simple app to add a github user and it will automatically retrieves its starred repositories.
 
-![App](./img.gif)
-
+<img src="./img.gif" alt="drawing" width="200"/>
 
 ## 📚 Libraries:
 
