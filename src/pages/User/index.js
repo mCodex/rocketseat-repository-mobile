@@ -1,6 +1,7 @@
 import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import { ActivityIndicator } from 'react-native';
 import api from '~/services/api';
 
 import {
@@ -19,8 +20,10 @@ import {
 
 const User = ({ route }) => {
     const { user } = route.params;
+
     const [stars, setStars] = useState([]);
     const [pagination, setPagination] = useState(1);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const loadDataFromAPI = async () => {
@@ -29,6 +32,7 @@ const User = ({ route }) => {
                     params: { page: pagination },
                 });
                 setStars(prevState => [...prevState, ...response.data]);
+                isLoading && setIsLoading(false);
             } catch (ex) {
                 console.log(ex);
             }
@@ -47,21 +51,27 @@ const User = ({ route }) => {
                 <Bio>{user.bio}</Bio>
             </Header>
 
-            <Stars
-                data={stars}
-                keyExtractor={star => star.id.toString()}
-                renderItem={({ item }) => (
-                    <Starred>
-                        <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
-                        <Info>
-                            <Title>{item.name}</Title>
-                            <Author>{item.owner.login}</Author>
-                        </Info>
-                    </Starred>
-                )}
-                onEndReached={handleOnEndReached}
-                onEndReadchedThreshold={500}
-            />
+            {isLoading ? (
+                <ActivityIndicator color="#7159c1" />
+            ) : (
+                <Stars
+                    data={stars}
+                    keyExtractor={star => star.id.toString()}
+                    renderItem={({ item }) => (
+                        <Starred>
+                            <OwnerAvatar
+                                source={{ uri: item.owner.avatar_url }}
+                            />
+                            <Info>
+                                <Title>{item.name}</Title>
+                                <Author>{item.owner.login}</Author>
+                            </Info>
+                        </Starred>
+                    )}
+                    onEndReached={handleOnEndReached}
+                    onEndReadchedThreshold={0.5}
+                />
+            )}
         </Container>
     );
 };

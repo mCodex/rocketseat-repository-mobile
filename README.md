@@ -1,5 +1,10 @@
 # Rocketseat Repository Mobile
 
+A simple app to add a github user and it will automatically retrieves its starred repositories.
+
+![App](./img.gif)
+
+
 ## 📚 Libraries:
 
 * [react-navigation](https://reactnavigation.org/docs/en/hello-react-navigation.html) - v5
