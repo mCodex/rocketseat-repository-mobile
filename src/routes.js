@@ -14,7 +14,7 @@ export default function App() {
             <StatusBar barStyle="light-content" backgroundColor="#7159c1" />
             <Stack.Navigator
                 screenOptions={{
-                    headerBackTitle: false,
+                    headerBackTitleVisible: false,
                     headerTitleAlign: 'center',
                     headerTintColor: 'white',
                     headerStyle: {
@@ -27,7 +27,13 @@ export default function App() {
                     component={Main}
                     options={{ headerTitle: 'Usuários' }}
                 />
-                <Stack.Screen name="User" component={User} />
+                <Stack.Screen
+                    name="User"
+                    component={User}
+                    options={({ route }) => ({
+                        headerTitle: route.params.user.name,
+                    })}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     );

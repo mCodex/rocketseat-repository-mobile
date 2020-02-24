@@ -1,5 +1,6 @@
 import React, { memo, useState, useEffect } from 'react';
 import { Keyboard, ActivityIndicator } from 'react-native';
+import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -19,7 +20,7 @@ import {
     ProfileButtonText,
 } from './styles';
 
-const Main = () => {
+const Main = ({ navigation }) => {
     const [newUser, setNewUser] = useState('');
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -62,6 +63,8 @@ const Main = () => {
         }
     };
 
+    const handleNavigate = user => navigation.navigate('User', { user });
+
     return (
         <Container>
             <Form>
@@ -91,7 +94,7 @@ const Main = () => {
                         <Avatar source={{ uri: item.avatar }} />
                         <Name>{item.name}</Name>
                         <Bio>{item.bio}</Bio>
-                        <ProfileButton>
+                        <ProfileButton onPress={() => handleNavigate(item)}>
                             <ProfileButtonText>Ver Perfil</ProfileButtonText>
                         </ProfileButton>
                     </User>
@@ -99,6 +102,12 @@ const Main = () => {
             />
         </Container>
     );
+};
+
+Main.propTypes = {
+    navigation: PropTypes.shape({
+        navigate: PropTypes.func,
+    }).isRequired,
 };
 
 export default memo(Main);
