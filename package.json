@@ -10,9 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.8.0",
     "@react-native-community/masked-view": "^0.1.6",
     "@react-navigation/native": "^5.0.7",
     "@react-navigation/stack": "^5.0.9",
+    "add": "^2.0.6",
     "axios": "^0.19.2",
     "babel-plugin-styled-components": "^1.10.7",
     "react": "16.9.0",
@@ -22,7 +24,8 @@
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.0.0-beta.10",
     "react-native-vector-icons": "^6.6.0",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.0.1",
+    "yarn": "^1.22.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
