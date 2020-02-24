@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { Keyboard } from 'react-native';
+import { Keyboard, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import api from '~/services/api';
@@ -21,8 +21,10 @@ import {
 const Main = () => {
     const [newUser, setNewUser] = useState('');
     const [users, setUsers] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async () => {
+        setIsLoading(true);
         try {
             const response = await api.get(`/users/${newUser}`);
 
@@ -38,6 +40,8 @@ const Main = () => {
             Keyboard.dismiss();
         } catch (ex) {
             console.log(ex);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -53,8 +57,12 @@ const Main = () => {
                     returnKeyType="send"
                     onSubmitEditing={handleSubmit}
                 />
-                <SubmitButton onPress={handleSubmit}>
-                    <Icon name="add" size={20} color="#fff" />
+                <SubmitButton loading={isLoading} onPress={handleSubmit}>
+                    {isLoading ? (
+                        <ActivityIndicator color="#fff" />
+                    ) : (
+                        <Icon name="add" size={20} color="#fff" />
+                    )}
                 </SubmitButton>
             </Form>
 
